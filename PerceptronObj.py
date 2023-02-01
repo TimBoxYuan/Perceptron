@@ -21,7 +21,7 @@ class DataGen:
 
     def gen_marg_data(self, n_data = 10000):
         x,y = self.gen_data(n_data = n_data)
-        xf, yf = self.filter_data(n_data = n_data)
+        xf, yf = self.filter_data(x,y)
         return xf, yf
 
 class Perceptron:
