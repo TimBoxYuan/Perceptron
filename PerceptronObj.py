@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 class DataGen:
     def __init__(self, dim = 10):
         w = np.random.random(dim) - 0.5 # 1 by 10 vector; each entry [-0.5,0.5]
-        w = w/la.norm(w) #? normalize weight 
+        w = w/la.norm(w) #normalize weight 
         self.w = w
         self.dim = dim
 
@@ -15,7 +15,9 @@ class DataGen:
         y_data = np.sign(self.w @ x_data) #(-1,0,1)
         return x_data, y_data
 
-    def filter_data(self, x_data, y_data): #filtering out entries with y = 0
+    def filter_data(self, x_data, y_data): 
+        #filtering out entries with y = 0 and eliminate data that are too close to 
+        #the seperation hyperplane. In order to run this example faster
         g_idx = (y_data * (self.w @ x_data)) >= 1 #Perceptron -1 if wx < 0, 1 otherwise
         return x_data[:, g_idx], y_data[g_idx]
 
@@ -31,7 +33,7 @@ class Perceptron:
         self.w = w
         self.dim = dim
 
-    def get_wrong(self, x_data, y_data): #find wrongly labeled data WHY???
+    def get_wrong(self, x_data, y_data): #find wrongly labeled data
         x_w = self.w @ x_data
         x_y = x_w * y_data
         wrong_idx = x_y < 0
@@ -55,7 +57,7 @@ class Perceptron:
                 if j%25 == 0:
                     print('iteration: %d, wrong numbers: %d' % (j, n))
 
-        bound = (la.norm(self.w) * la.norm(x_data,axis = 0).max())**2 #?????
+        bound = (la.norm(self.w) * la.norm(x_data,axis = 0).max())**2 
         return j, bound
 
     def eval_w (self, x_test, y_test):
